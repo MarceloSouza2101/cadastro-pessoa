@@ -1,5 +1,7 @@
 package br.com.mssantos.cadastropessoa.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -42,15 +45,22 @@ public class PessoaFisicaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<PessoaFisicaVO> salvarPessoaFisica(@RequestBody PessoaFisicaVO pessoaFisicaVO) {
+	public ResponseEntity<PessoaFisicaVO> salvarPessoaFisica(@Valid @RequestBody PessoaFisicaVO pessoaFisicaVO) {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(pessoaFisicaService.salvarPessoaFisica(pessoaFisicaVO));
 	}
 
 	@PutMapping
-	public ResponseEntity<PessoaFisicaVO> alterarPessoaFisicaPorId(@RequestBody PessoaFisicaVO pessoaFisicaVO) {
+	public ResponseEntity<PessoaFisicaVO> alterarPessoaFisicaPorId(@Valid @RequestBody PessoaFisicaVO pessoaFisicaVO) {
 
 		return ResponseEntity.status(HttpStatus.OK).body(pessoaFisicaService.alterarPessoaFisicaPorId(pessoaFisicaVO));
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deletarPessoaFisicaPorId(Long id) {
+		
+		return ResponseEntity.status(HttpStatus.OK).body(pessoaFisicaService.deletarPessoaFisicaPorId(id));
+
 	}
 
 }

@@ -20,19 +20,19 @@ public class PessoaFisicaEntity implements Serializable{
 	@Column(name = "ID")
 	private Long id;
 	
-	@Column(name = "CPF")
+	@Column(name = "CPF", nullable = false)
 	private String cpf;
 	
-	@Column(name = "NOME")
+	@Column(name = "NOME", nullable = false)
 	private String nome;
 	
-	@Column(name = "ID_PROFISSAO")
+	@Column(name = "ID_PROFISSAO", nullable = false)
 	private Long idProfissao;
 	
-	@Column(name = "ID_GENERO")
+	@Column(name = "ID_GENERO", nullable = false)
 	private Long idGenero;
 	
-	@Column(name = "NOME_MAE")
+	@Column(name = "NOME_MAE", nullable = false)
 	private String nomeMae;
 
 	public Long getId() {

@@ -91,6 +91,20 @@ public class PessoaFisicaService {
 
 		return alterarPessoaFisica(pessoaFisicaEntity, pessoaFisicaVO);
 	}
+	
+	public String deletarPessoaFisicaPorId(Long id) {
+
+		logger.info("DELETANDO PESSOA FISICA");
+		
+		PessoaFisicaEntity pessoaFisicaEntity = pessoaFisicaRepository.findById(id)
+				.orElseThrow(() -> new ParametroInvalidoException(
+						"Não existe Pessoa Física de ID: " + id));
+		
+		pessoaFisicaRepository.deleteById(pessoaFisicaEntity.getId());
+		
+		return "PESSOA DELETADA COM SUCESSO";
+	
+	}
 
 	private PessoaFisicaVO alterarPessoaFisica(PessoaFisicaEntity pessoaFisicaEntity, PessoaFisicaVO pessoaFisicaVO) {
 		

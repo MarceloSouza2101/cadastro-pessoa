@@ -2,13 +2,17 @@ package br.com.mssantos.cadastropessoa.exception.handler;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.mssantos.cadastropessoa.exception.DadosJaCadastradosException;
@@ -89,6 +93,22 @@ public class ServiceExceptionHandler extends ResponseEntityExceptionHandler{
 		header.add(HEADER_MESSAGE, e.getMessage());
 
 		return handleExceptionInternal(e, bodyExceptionResponse, header, INTERNAL_SERVER_ERROR, request);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		logger.error(e.getMessage(), e);
+
+		ExceptionResponseVO bodyExceptionResponse = criarExceptionResponseVO(TITLE_PARAMETROS_INVALIDOS,
+				TYPE_VALIDACAO_PARAMETROS, e.getFieldErrors().stream()
+						.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList()),
+				request.getDescription(false).replace("uri=", ""));
+
+		HttpHeaders header = new HttpHeaders();
+		header.add(HEADER_MESSAGE, e.getObjectName());
+
+		return handleExceptionInternal(e, bodyExceptionResponse, header, HttpStatus.BAD_REQUEST, request);
 	}
 	
 	private ExceptionResponseVO criarExceptionResponseVO(String title, String type, List<String> detail,
