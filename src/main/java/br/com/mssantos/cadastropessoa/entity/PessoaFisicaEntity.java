@@ -20,7 +20,7 @@ public class PessoaFisicaEntity implements Serializable{
 	@Column(name = "ID")
 	private Long id;
 	
-	@Column(name = "CPF", nullable = false)
+	@Column(name = "CPF", nullable = false, unique = true)
 	private String cpf;
 	
 	@Column(name = "NOME", nullable = false)
